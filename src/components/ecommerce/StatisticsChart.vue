@@ -4,9 +4,9 @@
   >
     <div class="flex flex-col gap-5 mb-6 sm:flex-row sm:justify-between">
       <div class="w-full">
-        <h3 class="text-lg font-semibold text-gray-800 dark:text-white/90">Statistics</h3>
+        <h3 class="text-lg font-semibold text-gray-800 dark:text-white/90">آمار</h3>
         <p class="mt-1 text-gray-500 text-theme-sm dark:text-gray-400">
-          Target you’ve set for each month
+          هدفی که برای هر ماه تعیین کرده‌اید
         </p>
       </div>
 
@@ -40,9 +40,9 @@
 import { ref } from 'vue'
 
 const options = [
-  { value: 'optionOne', label: 'Monthly' },
-  { value: 'optionTwo', label: 'Quarterly' },
-  { value: 'optionThree', label: 'Annually' },
+  { value: 'optionOne', label: 'ماهانه' },
+  { value: 'optionTwo', label: 'فصلانه' },
+  { value: 'optionThree', label: 'سالانه' },
 ]
 
 const selected = ref('optionOne')
@@ -50,11 +50,11 @@ import VueApexCharts from 'vue3-apexcharts'
 
 const series = ref([
   {
-    name: 'Sales',
+    name: 'فروش',
     data: [180, 190, 170, 160, 175, 165, 170, 205, 230, 210, 240, 235],
   },
   {
-    name: 'Revenue',
+    name: 'درآمد',
     data: [40, 30, 50, 40, 55, 40, 70, 100, 110, 120, 150, 140],
   },
 ])

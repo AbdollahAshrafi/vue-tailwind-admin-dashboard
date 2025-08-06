@@ -1,9 +1,11 @@
 <template>
-  <ThemeProvider>
-    <SidebarProvider>
-      <RouterView />
-    </SidebarProvider>
-  </ThemeProvider>
+  <div dir="rtl">
+    <ThemeProvider>
+      <SidebarProvider>
+        <RouterView />
+      </SidebarProvider>
+    </ThemeProvider>
+  </div>
 </template>
 
 <script setup lang="ts">

@@ -1,12 +1,12 @@
 <template>
   <aside
     :class="[
-      'fixed mt-16 flex flex-col lg:mt-0 top-0 px-5 left-0 bg-white dark:bg-gray-900 dark:border-gray-800 text-gray-900 h-screen transition-all duration-300 ease-in-out z-99999 border-r border-gray-200',
+      'fixed mt-16 flex flex-col lg:mt-0 top-0 px-5 right-0 bg-white dark:bg-gray-900 dark:border-gray-800 text-gray-900 h-screen transition-all duration-300 ease-in-out z-99999 border-l border-gray-200',
       {
         'lg:w-[290px]': isExpanded || isMobileOpen || isHovered,
         'lg:w-[90px]': !isExpanded && !isHovered,
         'translate-x-0 w-[290px]': isMobileOpen,
-        '-translate-x-full': !isMobileOpen,
+        'translate-x-full': !isMobileOpen,
         'lg:translate-x-0': true,
       },
     ]"
@@ -97,7 +97,7 @@
                   <ChevronDownIcon
                     v-if="isExpanded || isHovered || isMobileOpen"
                     :class="[
-                      'ml-auto w-5 h-5 transition-transform duration-200',
+                      'mr-auto w-5 h-5 transition-transform duration-200',
                       {
                         'rotate-180 text-brand-500': isSubmenuOpen(
                           groupIndex,
@@ -145,7 +145,7 @@
                       (isExpanded || isHovered || isMobileOpen)
                     "
                   >
-                    <ul class="mt-2 space-y-1 ml-9">
+                    <ul class="mt-2 space-y-1 mr-9">
                       <li v-for="subItem in item.subItems" :key="subItem.name">
                         <router-link
                           :to="subItem.path"
@@ -162,7 +162,7 @@
                           ]"
                         >
                           {{ subItem.name }}
-                          <span class="flex items-center gap-1 ml-auto">
+                          <span class="flex items-center gap-1 mr-auto">
                             <span
                               v-if="subItem.new"
                               :class="[
@@ -240,75 +240,75 @@ const { isExpanded, isMobileOpen, isHovered, openSubmenu } = useSidebar();
 
 const menuGroups = [
   {
-    title: "Menu",
+    title: "منو",
     items: [
       {
         icon: GridIcon,
-        name: "Dashboard",
-        subItems: [{ name: "Ecommerce", path: "/", pro: false }],
+        name: "داشبورد",
+        subItems: [{ name: "فروشگاه", path: "/", pro: false }],
       },
       {
         icon: CalenderIcon,
-        name: "Calendar",
+        name: "تقویم",
         path: "/calendar",
       },
       {
         icon: UserCircleIcon,
-        name: "User Profile",
+        name: "پروفایل کاربر",
         path: "/profile",
       },
 
       {
-        name: "Forms",
+        name: "فرم‌ها",
         icon: ListIcon,
         subItems: [
-          { name: "Form Elements", path: "/form-elements", pro: false },
+          { name: "عناصر فرم", path: "/form-elements", pro: false },
         ],
       },
       {
-        name: "Tables",
+        name: "جداول",
         icon: TableIcon,
-        subItems: [{ name: "Basic Tables", path: "/basic-tables", pro: false }],
+        subItems: [{ name: "جداول پایه", path: "/basic-tables", pro: false }],
       },
       {
-        name: "Pages",
+        name: "صفحات",
         icon: PageIcon,
         subItems: [
-          { name: "Black Page", path: "/blank", pro: false },
-          { name: "404 Page", path: "/error-404", pro: false },
+          { name: "صفحه خالی", path: "/blank", pro: false },
+          { name: "صفحه ۴۰۴", path: "/error-404", pro: false },
         ],
       },
     ],
   },
   {
-    title: "Others",
+    title: "سایر",
     items: [
       {
         icon: PieChartIcon,
-        name: "Charts",
+        name: "نمودارها",
         subItems: [
-          { name: "Line Chart", path: "/line-chart", pro: false },
-          { name: "Bar Chart", path: "/bar-chart", pro: false },
+          { name: "نمودار خطی", path: "/line-chart", pro: false },
+          { name: "نمودار ستونی", path: "/bar-chart", pro: false },
         ],
       },
       {
         icon: BoxCubeIcon,
-        name: "Ui Elements",
+        name: "عناصر رابط کاربری",
         subItems: [
-          { name: "Alerts", path: "/alerts", pro: false },
-          { name: "Avatars", path: "/avatars", pro: false },
-          { name: "Badge", path: "/badge", pro: false },
-          { name: "Buttons", path: "/buttons", pro: false },
-          { name: "Images", path: "/images", pro: false },
-          { name: "Videos", path: "/videos", pro: false },
+          { name: "هشدارها", path: "/alerts", pro: false },
+          { name: "آواتارها", path: "/avatars", pro: false },
+          { name: "نشان‌ها", path: "/badge", pro: false },
+          { name: "دکمه‌ها", path: "/buttons", pro: false },
+          { name: "تصاویر", path: "/images", pro: false },
+          { name: "ویدیوها", path: "/videos", pro: false },
         ],
       },
       {
         icon: PlugInIcon,
-        name: "Authentication",
+        name: "احراز هویت",
         subItems: [
-          { name: "Signin", path: "/signin", pro: false },
-          { name: "Signup", path: "/signup", pro: false },
+          { name: "ورود", path: "/signin", pro: false },
+          { name: "ثبت نام", path: "/signup", pro: false },
         ],
       },
       // ... Add other menu items here

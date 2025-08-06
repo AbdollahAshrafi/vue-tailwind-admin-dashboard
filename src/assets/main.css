@@ -1,5 +1,5 @@
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap')
-layer(base);
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@100;200;300;400;500;600;700;800;900&display=swap');
 
 @import 'tailwindcss';
 
@@ -8,6 +8,7 @@ layer(base);
 @theme {
   --font-*: initial;
   --font-outfit: Outfit, sans-serif;
+  --font-vazir: Vazirmatn, sans-serif;
 
   --breakpoint-*: initial;
   --breakpoint-2xsm: 375px;
@@ -184,7 +185,75 @@ layer(base);
     cursor: pointer;
   }
   body {
-    @apply relative font-normal font-outfit z-1 bg-gray-50;
+    @apply relative font-normal font-vazir z-1 bg-gray-50;
+    direction: rtl;
+  }
+  
+  /* RTL specific styles */
+  [dir="rtl"] {
+    direction: rtl;
+  }
+  
+  [dir="rtl"] .text-left {
+    text-align: right;
+  }
+  
+  [dir="rtl"] .text-right {
+    text-align: left;
+  }
+  
+  [dir="rtl"] .ml-auto {
+    margin-left: unset;
+    margin-right: auto;
+  }
+  
+  [dir="rtl"] .mr-auto {
+    margin-right: unset;
+    margin-left: auto;
+  }
+  
+  [dir="rtl"] .pl-5 {
+    padding-left: unset;
+    padding-right: 1.25rem;
+  }
+  
+  [dir="rtl"] .pr-5 {
+    padding-right: unset;
+    padding-left: 1.25rem;
+  }
+  
+  [dir="rtl"] .left-0 {
+    left: unset;
+    right: 0;
+  }
+  
+  [dir="rtl"] .right-0 {
+    right: unset;
+    left: 0;
+  }
+  
+  [dir="rtl"] .border-l {
+    border-left: unset;
+    border-right: 1px solid;
+  }
+  
+  [dir="rtl"] .border-r {
+    border-right: unset;
+    border-left: 1px solid;
+  }
+  
+  [dir="rtl"] .rounded-l-lg {
+    border-top-left-radius: unset;
+    border-bottom-left-radius: unset;
+    border-top-right-radius: 0.5rem;
+    border-bottom-right-radius: 0.5rem;
+  }
+  
+  [dir="rtl"] .rounded-r-lg {
+    border-top-right-radius: unset;
+    border-bottom-right-radius: unset;
+    border-top-left-radius: 0.5rem;
+    border-bottom-left-radius: 0.5rem;
   }
 }
 

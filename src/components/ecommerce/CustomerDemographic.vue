@@ -5,10 +5,10 @@
     <div class="flex justify-between">
       <div>
         <h3 class="text-lg font-semibold text-gray-800 dark:text-white/90">
-          Customers Demographic
+          جمعیت‌شناسی مشتریان
         </h3>
         <p class="mt-1 text-gray-500 text-theme-sm dark:text-gray-400">
-          Number of customer based on country
+          تعداد مشتریان بر اساس کشور
         </p>
       </div>
     </div>
@@ -30,7 +30,7 @@
           <div>
             <p class="font-semibold text-gray-800 text-theme-sm dark:text-white/90">USA</p>
             <span class="block text-gray-500 text-theme-xs dark:text-gray-400">
-              2,379 Customers
+              ۲,۳۷۹ مشتری
             </span>
           </div>
         </div>
@@ -53,7 +53,7 @@
           <div>
             <p class="font-semibold text-gray-800 text-theme-sm dark:text-white/90">France</p>
             <span class="block text-gray-500 text-theme-xs dark:text-gray-400">
-              589 Customers
+              ۵۸۹ مشتری
             </span>
           </div>
         </div>

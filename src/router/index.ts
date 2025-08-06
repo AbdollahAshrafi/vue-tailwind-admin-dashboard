@@ -11,7 +11,7 @@ const router = createRouter({
       name: 'Ecommerce',
       component: () => import('../views/Ecommerce.vue'),
       meta: {
-        title: 'eCommerce Dashboard',
+        title: 'داشبورد فروشگاه',
       },
     },
     {
@@ -19,7 +19,7 @@ const router = createRouter({
       name: 'Calendar',
       component: () => import('../views/Others/Calendar.vue'),
       meta: {
-        title: 'Calendar',
+        title: 'تقویم',
       },
     },
     {
@@ -27,7 +27,7 @@ const router = createRouter({
       name: 'Profile',
       component: () => import('../views/Others/UserProfile.vue'),
       meta: {
-        title: 'Profile',
+        title: 'پروفایل',
       },
     },
     {
@@ -35,7 +35,7 @@ const router = createRouter({
       name: 'Form Elements',
       component: () => import('../views/Forms/FormElements.vue'),
       meta: {
-        title: 'Form Elements',
+        title: 'عناصر فرم',
       },
     },
     {
@@ -43,25 +43,31 @@ const router = createRouter({
       name: 'Basic Tables',
       component: () => import('../views/Tables/BasicTables.vue'),
       meta: {
-        title: 'Basic Tables',
+        title: 'جداول پایه',
       },
     },
     {
       path: '/line-chart',
       name: 'Line Chart',
       component: () => import('../views/Chart/LineChart/LineChart.vue'),
+      meta: {
+        title: 'نمودار خطی',
+      },
     },
     {
       path: '/bar-chart',
       name: 'Bar Chart',
       component: () => import('../views/Chart/BarChart/BarChart.vue'),
+      meta: {
+        title: 'نمودار ستونی',
+      },
     },
     {
       path: '/alerts',
       name: 'Alerts',
       component: () => import('../views/UiElements/Alerts.vue'),
       meta: {
-        title: 'Alerts',
+        title: 'هشدارها',
       },
     },
     {
@@ -69,7 +75,7 @@ const router = createRouter({
       name: 'Avatars',
       component: () => import('../views/UiElements/Avatars.vue'),
       meta: {
-        title: 'Avatars',
+        title: 'آواتارها',
       },
     },
     {
@@ -77,7 +83,7 @@ const router = createRouter({
       name: 'Badge',
       component: () => import('../views/UiElements/Badges.vue'),
       meta: {
-        title: 'Badge',
+        title: 'نشان‌ها',
       },
     },
 
@@ -86,7 +92,7 @@ const router = createRouter({
       name: 'Buttons',
       component: () => import('../views/UiElements/Buttons.vue'),
       meta: {
-        title: 'Buttons',
+        title: 'دکمه‌ها',
       },
     },
 
@@ -95,7 +101,7 @@ const router = createRouter({
       name: 'Images',
       component: () => import('../views/UiElements/Images.vue'),
       meta: {
-        title: 'Images',
+        title: 'تصاویر',
       },
     },
     {
@@ -103,7 +109,7 @@ const router = createRouter({
       name: 'Videos',
       component: () => import('../views/UiElements/Videos.vue'),
       meta: {
-        title: 'Videos',
+        title: 'ویدیوها',
       },
     },
     {
@@ -111,7 +117,7 @@ const router = createRouter({
       name: 'Blank',
       component: () => import('../views/Pages/BlankPage.vue'),
       meta: {
-        title: 'Blank',
+        title: 'صفحه خالی',
       },
     },
 
@@ -120,7 +126,7 @@ const router = createRouter({
       name: '404 Error',
       component: () => import('../views/Errors/FourZeroFour.vue'),
       meta: {
-        title: '404 Error',
+        title: 'خطای ۴۰۴',
       },
     },
 
@@ -129,7 +135,7 @@ const router = createRouter({
       name: 'Signin',
       component: () => import('../views/Auth/Signin.vue'),
       meta: {
-        title: 'Signin',
+        title: 'ورود',
       },
     },
     {
@@ -137,7 +143,7 @@ const router = createRouter({
       name: 'Signup',
       component: () => import('../views/Auth/Signup.vue'),
       meta: {
-        title: 'Signup',
+        title: 'ثبت نام',
       },
     },
   ],
@@ -146,6 +152,6 @@ const router = createRouter({
 export default router
 
 router.beforeEach((to, from, next) => {
-  document.title = `Vue.js ${to.meta.title} | TailAdmin - Vue.js Tailwind CSS Dashboard Template`
+  document.title = `پنل مدیریت یتیم‌ها ${to.meta.title} | قالب Vue.js`
   next()
 })
