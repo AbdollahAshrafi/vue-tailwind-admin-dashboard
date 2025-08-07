@@ -97,7 +97,7 @@
                   <ChevronDownIcon
                     v-if="isExpanded || isHovered || isMobileOpen"
                     :class="[
-                      'mr-auto w-5 h-5 transition-transform duration-200',
+                      'ml-0 mr-auto w-5 h-5 transition-transform duration-200',
                       {
                         'rotate-180 text-brand-500': isSubmenuOpen(
                           groupIndex,
@@ -217,10 +217,7 @@ import { useRoute } from "vue-router";
 
 import {
   GridIcon,
-  CalenderIcon,
   UserCircleIcon,
-  ChatIcon,
-  MailIcon,
   DocsIcon,
   PieChartIcon,
   ChevronDownIcon,
@@ -229,6 +226,8 @@ import {
   TableIcon,
   ListIcon,
   PlugInIcon,
+  UserGroupIcon,
+  DollarSignIcon,
 } from "../../icons";
 import SidebarWidget from "./SidebarWidget.vue";
 import BoxCubeIcon from "@/icons/BoxCubeIcon.vue";
@@ -244,13 +243,16 @@ const menuGroups = [
     items: [
       {
         icon: GridIcon,
-        name: "داشبورد",
-        subItems: [{ name: "فروشگاه", path: "/", pro: false }],
+        name: "نمای کلی",
+        path: "/",
       },
       {
-        icon: CalenderIcon,
-        name: "تقویم",
-        path: "/calendar",
+        icon: UserGroupIcon,
+        name: "ایتام",
+        subItems: [
+          { name: "مشاهده", path: "/orphans", pro: false },
+          { name: "افزودن", path: "/orphans/create", pro: false },
+        ],
       },
       {
         icon: UserCircleIcon,
@@ -259,59 +261,37 @@ const menuGroups = [
       },
 
       {
-        name: "فرم‌ها",
+        name: "حامیان",
         icon: ListIcon,
         subItems: [
           { name: "عناصر فرم", path: "/form-elements", pro: false },
         ],
       },
       {
-        name: "جداول",
+        name: "سرپرست ها",
         icon: TableIcon,
         subItems: [{ name: "جداول پایه", path: "/basic-tables", pro: false }],
       },
       {
-        name: "صفحات",
-        icon: PageIcon,
-        subItems: [
-          { name: "صفحه خالی", path: "/blank", pro: false },
-          { name: "صفحه ۴۰۴", path: "/error-404", pro: false },
-        ],
-      },
-    ],
-  },
-  {
-    title: "سایر",
-    items: [
-      {
-        icon: PieChartIcon,
-        name: "نمودارها",
-        subItems: [
-          { name: "نمودار خطی", path: "/line-chart", pro: false },
-          { name: "نمودار ستونی", path: "/bar-chart", pro: false },
-        ],
+        name: "بازدید ها",
+        icon: TableIcon,
+        subItems: [{ name: "جداول پایه", path: "/basic-tables", pro: false }],
       },
       {
-        icon: BoxCubeIcon,
-        name: "عناصر رابط کاربری",
-        subItems: [
-          { name: "هشدارها", path: "/alerts", pro: false },
-          { name: "آواتارها", path: "/avatars", pro: false },
-          { name: "نشان‌ها", path: "/badge", pro: false },
-          { name: "دکمه‌ها", path: "/buttons", pro: false },
-          { name: "تصاویر", path: "/images", pro: false },
-          { name: "ویدیوها", path: "/videos", pro: false },
-        ],
+        name: "کمک های نقدی",
+        icon: DollarSignIcon,
+        subItems: [{ name: "جداول پایه", path: "/basic-tables", pro: false }],
       },
       {
-        icon: PlugInIcon,
-        name: "احراز هویت",
-        subItems: [
-          { name: "ورود", path: "/signin", pro: false },
-          { name: "ثبت نام", path: "/signup", pro: false },
-        ],
+        name: "کمک های غیر نقدی",
+        icon: TableIcon,
+        subItems: [{ name: "جداول پایه", path: "/basic-tables", pro: false }],
       },
-      // ... Add other menu items here
+      {
+        name: "گزارش گیری پیشرفته",
+        icon: DocsIcon,
+        subItems: [{ name: "جداول پایه", path: "/basic-tables", pro: false }],
+      },
     ],
   },
 ];
