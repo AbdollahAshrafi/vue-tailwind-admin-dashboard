@@ -10,9 +10,9 @@
             class="inline-flex items-center gap-1.5 text-sm text-gray-500 dark:text-gray-400"
             to="/"
           >
-            Home
+            خانه
             <svg
-              class="stroke-current"
+              class="stroke-current transform rotate-180"
               width="17"
               height="16"
               viewBox="0 0 17 16"
@@ -29,7 +29,7 @@
             </svg>
           </router-link>
         </li>
-        <li class="text-sm text-gray-800 dark:text-white/90">
+        <li class="text-sm mt-2 text-gray-800 dark:text-white/90">
           {{ pageTitle }}
         </li>
       </ol>
