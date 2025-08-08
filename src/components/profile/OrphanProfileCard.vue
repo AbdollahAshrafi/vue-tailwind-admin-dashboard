@@ -1,30 +1,29 @@
 <template>
   <div>
     <div class="p-5 mb-6 border border-gray-200 rounded-2xl dark:border-gray-800 lg:p-6">
-      <div class="flex flex-col gap-6 lg:flex-row lg:items-start lg:justify-between">
-        <div>
-          <h4 class="text-lg font-semibold text-gray-800 dark:text-white/90 lg:mb-6">
-            {{ title }}
-          </h4>
-
-          <div class="grid grid-cols-1 gap-4 lg:grid-cols-2 lg:gap-7 2xl:gap-x-32">
-            <div v-for="field in displayFields" :key="field.key">
-              <p class="mb-2 text-xs leading-normal text-gray-500 dark:text-gray-400">{{ field.label }}</p>
-              <p class="text-sm font-medium text-gray-800 dark:text-white/90">
-                <span v-if="field.type === 'amount'">{{ formatAmount(data[field.key] as number) }}</span>
-                <span v-else-if="field.type === 'date'">{{ formatDate(data[field.key] as string) }}</span>
-                <span v-else-if="field.type === 'status'">
-                  <span :class="getStatusClass(data[field.key] as string)" class="px-2 py-1 text-xs rounded-full">
-                    {{ data[field.key] }}
-                  </span>
-                </span>
-                <span v-else>{{ data[field.key] || '-' }}</span>
-              </p>
+      <div class="flex flex-col gap-5 xl:flex-row xl:items-center xl:justify-between">
+        <div class="flex flex-col items-center w-full gap-6 xl:flex-row">
+          <div
+            class="w-20 h-20 overflow-hidden border border-gray-200 rounded-full dark:border-gray-800"
+          >
+            <img :src="orphan.avatar" :alt="orphan.name" />
+          </div>
+          <div class="order-3 xl:order-2">
+            <h4
+              class="mb-2 text-lg font-semibold text-center text-gray-800 dark:text-white/90 xl:text-left"
+            >
+              {{ orphan.name }}
+            </h4>
+            <div
+              class="flex flex-col items-center gap-1 text-center xl:flex-row xl:gap-3 xl:text-left"
+            >
+              <p class="text-sm text-gray-500 dark:text-gray-400">کد یتیم: {{ orphan.code }}</p>
+              <div class="hidden h-3.5 w-px bg-gray-300 dark:bg-gray-700 xl:block"></div>
+              <p class="text-sm text-gray-500 dark:text-gray-400">{{ orphan.age }} سال</p>
             </div>
           </div>
         </div>
-
-        <button class="edit-button" @click="isProfileInfoModal = true">
+        <button @click="isProfileInfoModal = true" class="edit-button">
           <svg
             class="fill-current"
             width="18"
@@ -44,7 +43,6 @@
         </button>
       </div>
     </div>
-    
     <Modal v-if="isProfileInfoModal" @close="isProfileInfoModal = false">
       <template #body>
         <div
@@ -73,10 +71,10 @@
           </button>
           <div class="px-2 pr-14">
             <h4 class="mb-2 text-2xl font-semibold text-gray-800 dark:text-white/90">
-              ویرایش {{ title }}
+              ویرایش اطلاعات یتیم
             </h4>
             <p class="mb-6 text-sm text-gray-500 dark:text-gray-400 lg:mb-7">
-              اطلاعات را به‌روزرسانی کنید.
+              اطلاعات یتیم را به‌روزرسانی کنید.
             </p>
           </div>
           <form class="flex flex-col">
@@ -87,53 +85,69 @@
                 </h5>
 
                 <div class="grid grid-cols-1 gap-x-6 gap-y-5 lg:grid-cols-2">
-                  <div 
-                    v-for="field in editFields" 
-                    :key="field.key"
-                    :class="field.fullWidth ? 'col-span-2' : 'col-span-2 lg:col-span-1'"
-                  >
+                  <div class="col-span-2 lg:col-span-1">
                     <label
                       class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-400"
                     >
-                      {{ field.label }}
+                      نام
                     </label>
-                    
-                    <!-- Text Input -->
                     <input
-                      v-if="field.type === 'text' || field.type === 'number'"
-                      v-model="editForm[field.key]"
-                      :type="field.type"
-                      :placeholder="field.placeholder"
+                      v-model="editForm.name"
+                      type="text"
+                      class="dark:bg-dark-900 h-11 w-full rounded-lg border border-gray-300 bg-transparent bg-none px-4 py-2.5 text-sm text-gray-800 shadow-theme-xs placeholder:text-gray-400 focus:border-brand-300 focus:outline-hidden focus:ring-3 focus:ring-brand-500/10 dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30 dark:focus:border-brand-800"
+                    />
+                  </div>
+
+                  <div class="col-span-2 lg:col-span-1">
+                    <label
+                      class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-400"
+                    >
+                      کد یتیم
+                    </label>
+                    <input
+                      v-model="editForm.code"
+                      type="text"
                       class="dark:bg-dark-900 h-11 w-full appearance-none rounded-lg border border-gray-300 bg-transparent bg-none px-4 py-2.5 text-sm text-gray-800 shadow-theme-xs placeholder:text-gray-400 focus:border-brand-300 focus:outline-hidden focus:ring-3 focus:ring-brand-500/10 dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30 dark:focus:border-brand-800"
                     />
-                    
-                    <!-- Date Input -->
+                  </div>
+
+                  <div class="col-span-2 lg:col-span-1">
+                    <label
+                      class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-400"
+                    >
+                      سن
+                    </label>
                     <input
-                      v-else-if="field.type === 'date'"
-                      v-model="editForm[field.key]"
+                      v-model="editForm.age"
+                      type="number"
+                      class="dark:bg-dark-900 h-11 w-full appearance-none rounded-lg border border-gray-300 bg-transparent bg-none px-4 py-2.5 text-sm text-gray-800 shadow-theme-xs placeholder:text-gray-400 focus:border-brand-300 focus:outline-hidden focus:ring-3 focus:ring-brand-500/10 dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30 dark:focus:border-brand-800"
+                    />
+                  </div>
+
+                  <div class="col-span-2 lg:col-span-1">
+                    <label
+                      class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-400"
+                    >
+                      تاریخ تولد
+                    </label>
+                    <input
+                      v-model="editForm.birthDate"
                       type="date"
                       class="dark:bg-dark-900 h-11 w-full appearance-none rounded-lg border border-gray-300 bg-transparent bg-none px-4 py-2.5 text-sm text-gray-800 shadow-theme-xs placeholder:text-gray-400 focus:border-brand-300 focus:outline-hidden focus:ring-3 focus:ring-brand-500/10 dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30 dark:focus:border-brand-800"
                     />
-                    
-                    <!-- Select Input -->
-                    <select
-                      v-else-if="field.type === 'select'"
-                      v-model="editForm[field.key]"
-                      class="dark:bg-dark-900 h-11 w-full appearance-none rounded-lg border border-gray-300 bg-transparent bg-none px-4 py-2.5 text-sm text-gray-800 shadow-theme-xs placeholder:text-gray-400 focus:border-brand-300 focus:outline-hidden focus:ring-3 focus:ring-brand-500/10 dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30 dark:focus:border-brand-800"
+                  </div>
+
+                  <div class="col-span-2">
+                    <label
+                      class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-400"
                     >
-                      <option v-for="option in field.options" :key="option.value" :value="option.value">
-                        {{ option.label }}
-                      </option>
-                    </select>
-                    
-                    <!-- Textarea -->
-                    <textarea
-                      v-else-if="field.type === 'textarea'"
-                      v-model="editForm[field.key]"
-                      :placeholder="field.placeholder"
-                      :rows="field.rows || 3"
-                      class="dark:bg-dark-900 w-full appearance-none rounded-lg border border-gray-300 bg-transparent bg-none px-4 py-2.5 text-sm text-gray-800 shadow-theme-xs placeholder:text-gray-400 focus:border-brand-300 focus:outline-hidden focus:ring-3 focus:ring-brand-500/10 dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30 dark:focus:border-brand-800"
-                    ></textarea>
+                      آدرس تصویر
+                    </label>
+                    <input
+                      v-model="editForm.avatar"
+                      type="text"
+                      class="dark:bg-dark-900 h-11 w-full appearance-none rounded-lg border border-gray-300 bg-transparent bg-none px-4 py-2.5 text-sm text-gray-800 shadow-theme-xs placeholder:text-gray-400 focus:border-brand-300 focus:outline-hidden focus:ring-3 focus:ring-brand-500/10 dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30 dark:focus:border-brand-800"
+                    />
                   </div>
                 </div>
               </div>
@@ -162,73 +176,35 @@
 </template>
 
 <script setup lang="ts">
-import { ref, reactive, computed, watch } from 'vue'
+import { ref, reactive } from 'vue'
 import Modal from './Modal.vue'
 
-interface FieldConfig {
-  key: string
-  label: string
-  type: 'text' | 'number' | 'date' | 'select' | 'textarea' | 'amount' | 'status'
-  placeholder?: string
-  fullWidth?: boolean
-  options?: { value: string; label: string }[]
-  rows?: number
+interface Orphan {
+  name: string
+  code: string
+  age: number
+  avatar: string
+  birthDate: string
 }
 
 interface Props {
-  title: string
-  data: Record<string, string | number | boolean | null | undefined>
-  fields: FieldConfig[]
-  personType?: string
+  orphan: Orphan
 }
 
 const props = defineProps<Props>()
 const isProfileInfoModal = ref(false)
 
-// Computed properties for display and edit fields
-const displayFields = computed(() => props.fields)
-const editFields = computed(() => props.fields)
-
-// Initialize edit form with current data
-const editForm = reactive({ ...props.data })
-
-// Watch for data changes to update edit form
-watch(() => props.data, (newData) => {
-  Object.assign(editForm, newData)
-}, { deep: true })
-
-const formatAmount = (amount: number) => {
-  if (!amount) return '-'
-  return amount.toLocaleString() + ' تومان'
-}
-
-const formatDate = (date: string) => {
-  if (!date) return '-'
-  return date
-}
-
-const getStatusClass = (status: string) => {
-  switch (status) {
-    case 'انجام شده':
-    case 'پرداخت شده':
-      return 'bg-green-100 text-green-800 dark:bg-green-900/20 dark:text-green-400'
-    case 'در انتظار':
-      return 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/20 dark:text-yellow-400'
-    case 'لغو شده':
-    case 'ناموفق':
-      return 'bg-red-100 text-red-800 dark:bg-red-900/20 dark:text-red-400'
-    default:
-      return 'bg-gray-100 text-gray-800 dark:bg-gray-900/20 dark:text-gray-400'
-  }
-}
+const editForm = reactive({
+  name: props.orphan.name,
+  code: props.orphan.code,
+  age: props.orphan.age,
+  avatar: props.orphan.avatar,
+  birthDate: props.orphan.birthDate
+})
 
 const saveProfile = () => {
-  // Emit the updated data
-  emit('update', { ...editForm })
+  // Implement save profile logic here
+  console.log('Orphan profile saved', editForm)
   isProfileInfoModal.value = false
 }
-
-const emit = defineEmits<{
-  update: [data: Record<string, string | number | boolean | null | undefined>]
-}>()
-</script>
+</script> 

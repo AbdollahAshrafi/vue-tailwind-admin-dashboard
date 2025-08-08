@@ -8,13 +8,12 @@
           </h4>
 
           <div class="grid grid-cols-1 gap-4 lg:grid-cols-2 lg:gap-7 2xl:gap-x-32">
-            <div v-for="field in displayFields" :key="field.key">
+            <div v-for="field in fields" :key="field.key">
               <p class="mb-2 text-xs leading-normal text-gray-500 dark:text-gray-400">{{ field.label }}</p>
               <p class="text-sm font-medium text-gray-800 dark:text-white/90">
-                <span v-if="field.type === 'amount'">{{ formatAmount(data[field.key] as number) }}</span>
-                <span v-else-if="field.type === 'date'">{{ formatDate(data[field.key] as string) }}</span>
+                <span v-if="field.type === 'amount'">{{ formatAmount(data[field.key]) }}</span>
                 <span v-else-if="field.type === 'status'">
-                  <span :class="getStatusClass(data[field.key] as string)" class="px-2 py-1 text-xs rounded-full">
+                  <span :class="getStatusClass(data[field.key])" class="px-2 py-1 text-xs rounded-full">
                     {{ data[field.key] }}
                   </span>
                 </span>
@@ -88,7 +87,7 @@
 
                 <div class="grid grid-cols-1 gap-x-6 gap-y-5 lg:grid-cols-2">
                   <div 
-                    v-for="field in editFields" 
+                    v-for="field in fields" 
                     :key="field.key"
                     :class="field.fullWidth ? 'col-span-2' : 'col-span-2 lg:col-span-1'"
                   >
@@ -162,7 +161,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, reactive, computed, watch } from 'vue'
+import { ref, reactive, watch } from 'vue'
 import Modal from './Modal.vue'
 
 interface FieldConfig {
@@ -177,17 +176,12 @@ interface FieldConfig {
 
 interface Props {
   title: string
-  data: Record<string, string | number | boolean | null | undefined>
+  data: Record<string, string | number>
   fields: FieldConfig[]
-  personType?: string
 }
 
 const props = defineProps<Props>()
 const isProfileInfoModal = ref(false)
-
-// Computed properties for display and edit fields
-const displayFields = computed(() => props.fields)
-const editFields = computed(() => props.fields)
 
 // Initialize edit form with current data
 const editForm = reactive({ ...props.data })
@@ -200,11 +194,6 @@ watch(() => props.data, (newData) => {
 const formatAmount = (amount: number) => {
   if (!amount) return '-'
   return amount.toLocaleString() + ' تومان'
-}
-
-const formatDate = (date: string) => {
-  if (!date) return '-'
-  return date
 }
 
 const getStatusClass = (status: string) => {
@@ -229,6 +218,6 @@ const saveProfile = () => {
 }
 
 const emit = defineEmits<{
-  update: [data: Record<string, string | number | boolean | null | undefined>]
+  update: [data: Record<string, string | number>]
 }>()
-</script>
+</script> 

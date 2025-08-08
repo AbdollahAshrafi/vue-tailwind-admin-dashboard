@@ -23,6 +23,14 @@ const router = createRouter({
       },
     },
     {
+      path: '/orphans/show',
+      name: 'OrphansShow',
+      component: () => import('../views/Orphan/show.vue'),
+      meta: {
+        title: 'یتیم',
+      },
+    },
+    {
       path: '/calendar',
       name: 'Calendar',
       component: () => import('../views/Others/Calendar.vue'),

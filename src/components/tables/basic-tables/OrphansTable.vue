@@ -67,7 +67,7 @@ const users = ref<OrphanRecord[]>([
     },
     guardian: 'علی قادری',
     supervisor: 'خانم احمدی',
-    lastUpdated: '2025-08-05',
+    lastUpdated: '1404-08-05',
   },
   {
     orphan: {
@@ -77,7 +77,7 @@ const users = ref<OrphanRecord[]>([
     },
     guardian: 'سعید کریمی',
     supervisor: 'آقای جعفری',
-    lastUpdated: '2025-08-04',
+    lastUpdated: '1404-08-04',
   },
   {
     orphan: {
@@ -87,7 +87,7 @@ const users = ref<OrphanRecord[]>([
     },
     guardian: 'مریم موسوی',
     supervisor: 'خانم عباسی',
-    lastUpdated: '2025-07-29',
+    lastUpdated: '1404-07-29',
   },
   {
     orphan: {
@@ -97,7 +97,7 @@ const users = ref<OrphanRecord[]>([
     },
     guardian: 'رضا امیری',
     supervisor: 'آقای فتحی',
-    lastUpdated: '2025-07-22',
+    lastUpdated: '1404-07-22',
   },
   {
     orphan: {
@@ -107,7 +107,7 @@ const users = ref<OrphanRecord[]>([
     },
     guardian: 'سمیه رضایی',
     supervisor: 'خانم رسولی',
-    lastUpdated: '2025-08-01',
+    lastUpdated: '1404-08-01',
   },
   {
     orphan: {
@@ -117,7 +117,7 @@ const users = ref<OrphanRecord[]>([
     },
     guardian: 'محمد احمدی',
     supervisor: 'آقای رضایی',
-    lastUpdated: '2025-07-30',
+    lastUpdated: '1404-07-30',
   },
   {
     orphan: {
@@ -127,7 +127,7 @@ const users = ref<OrphanRecord[]>([
     },
     guardian: 'حسین حسینی',
     supervisor: 'خانم محمدی',
-    lastUpdated: '2025-08-02',
+    lastUpdated: '1404-08-02',
   },
   {
     orphan: {
@@ -137,7 +137,7 @@ const users = ref<OrphanRecord[]>([
     },
     guardian: 'علی نوری',
     supervisor: 'آقای کریمی',
-    lastUpdated: '2025-07-25',
+    lastUpdated: '1404-07-25',
   },
   {
     orphan: {
@@ -147,7 +147,7 @@ const users = ref<OrphanRecord[]>([
     },
     guardian: 'احمد جعفری',
     supervisor: 'خانم موسوی',
-    lastUpdated: '2025-08-03',
+    lastUpdated: '1404-08-03',
   },
   {
     orphan: {
@@ -157,7 +157,7 @@ const users = ref<OrphanRecord[]>([
     },
     guardian: 'محمد رضایی',
     supervisor: 'آقای احمدی',
-    lastUpdated: '2025-07-28',
+    lastUpdated: '1404-07-28',
   },
 ])
 
