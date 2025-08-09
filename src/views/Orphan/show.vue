@@ -1,67 +1,79 @@
 <template>
-  <admin-layout>
-    <PageBreadcrumb :pageTitle="currentPageTitle" />
-
-    <div
-      class="rounded-2xl border border-gray-200 bg-white p-5 dark:border-gray-800 dark:bg-white/[0.03] lg:p-6"
-    >
-      <h3 class="mb-5 text-lg font-semibold text-gray-800 dark:text-white/90 lg:mb-7">اطلاعات یتیم</h3>
+    <admin-layout>
+      <PageBreadcrumb :pageTitle="currentPageTitle" />
+  
+      <div
+        class="rounded-2xl border border-gray-200 bg-white p-5 dark:border-gray-800 dark:bg-white/[0.03] lg:p-6"
+      >
+        <h3 class="mb-5 text-lg font-semibold text-gray-800 dark:text-white/90 lg:mb-7">اطلاعات یتیم</h3>
       
       <!-- Orphan Profile Card -->
       <OrphanProfileCard :orphan="orphanData" />
       
-      <!-- Orphan Personal Info Card -->
-      <FlexiblePersonalInfoCard 
-        title="اطلاعات شخصی یتیم"
-        :data="orphanPersonalInfo"
-        :fields="orphanFields"
-        @update="updateOrphanInfo"
-      />
-      
-      <!-- Father Info Card -->
-      <FlexiblePersonalInfoCard 
-        title="اطلاعات پدر متوفی"
-        :data="fatherData"
-        :fields="fatherFields"
-        @update="updateFatherInfo"
-      />
-      
-      <!-- Mother Info Card -->
-      <FlexiblePersonalInfoCard 
-        title="اطلاعات مادر"
-        :data="motherData"
-        :fields="motherFields"
-        @update="updateMotherInfo"
-      />
-      
-      <!-- Mother's Husband Info Card (only if mother is remarried) -->
-      <FlexiblePersonalInfoCard 
-        v-if="motherData.marriageStatus === 'متاهل'"
-        title="اطلاعات همسر مادر"
-        :data="motherHusbandData"
-        :fields="husbandFields"
-        @update="updateHusbandInfo"
-      />
-      
-      <!-- Visits Table -->
-      <VisitsTable :visits="visitsData" />
-      
-      <!-- Payments Table -->
-      <PaymentsTable :payments="paymentsData" />
-    </div>
-  </admin-layout>
-</template>
+      <Tabs :tabs="tabs" :initial="0">
+        <template #personal>
+          <!-- Orphan Personal Info Card -->
+          <PersonalInfoCard 
+            title="اطلاعات شخص یتیم"
+            :data="orphanPersonalInfo"
+            :fields="orphanFields"
+            @update="updateOrphanInfo"
+          />
+          
+          <!-- Father Info Card -->
+          <PersonalInfoCard 
+            title="اطلاعات پدر مرحوم"
+            :data="fatherData"
+            :fields="fatherFields"
+            @update="updateFatherInfo"
+          />
+          
+          <!-- Mother Info Card -->
+          <PersonalInfoCard 
+            title="اطلاعات مادر"
+            :data="motherData"
+            :fields="motherFields"
+            @update="updateMotherInfo"
+          />
+          
+          <!-- Mother's Husband Info Card (only if mother is remarried) -->
+          <PersonalInfoCard 
+            v-if="motherData.remarriageStatus === 'انجام داده'"
+            title="اطلاعات همسر مادر"
+            :data="motherHusbandData"
+            :fields="husbandFields"
+            @update="updateHusbandInfo"
+          />
+        </template>
+        
+        <template #visits>
+          <VisitsTable :visits="visitsData" />
+        </template>
+        
+        <template #monetary>
+          <PaymentsTable :payments="paymentsData" />
+        </template>
+        
+        <template #nonmonetary>
+          <NonMonetaryHelpTable :items="nonMonetaryData" />
+        </template>
+      </Tabs>
+      </div>
+    </admin-layout>
+  </template>
+  
+  <script setup lang="ts">
+  import AdminLayout from '../../components/layout/AdminLayout.vue'
+    import PageBreadcrumb from '@/components/common/PageBreadcrumb.vue'
+  import { ref } from 'vue'
+ import OrphanProfileCard from '../../components/profile/OrphanProfileCard.vue'
+  import PersonalInfoCard from '../../components/profile/PersonalInfoCard.vue'
+ import VisitsTable from '../../components/tables/VisitsTable.vue'
+ import PaymentsTable from '../../components/tables/PaymentsTable.vue'
+ import Tabs from '@/components/common/Tabs.vue'
+ import NonMonetaryHelpTable from '@/components/tables/NonMonetaryHelpTable.vue'
 
-<script setup lang="ts">
-import AdminLayout from '../../components/layout/AdminLayout.vue'
-import PageBreadcrumb from '@/components/common/PageBreadcrumb.vue'
-import { ref } from 'vue'
-import OrphanProfileCard from '../../components/profile/OrphanProfileCard.vue'
-import FlexiblePersonalInfoCard from '../../components/profile/FlexiblePersonalInfoCard.vue'
-import VisitsTable from '../../components/tables/VisitsTable.vue'
-import PaymentsTable from '../../components/tables/PaymentsTable.vue'
-
-const currentPageTitle = ref('محسن شریفیان')
+  const currentPageTitle = ref('محسن شریفیان')
 
 // Sample data for orphan profile
 const orphanData = ref({
@@ -78,6 +90,9 @@ const orphanPersonalInfo = ref({
   code: 'YT-1023',
   age: 12,
   birthDate: '1392-03-15',
+  nationalId: '0012345678',
+  idCardNumber: '123456789',
+  education: 'ابتدایی',
   caretaker: 'علی شریفیان',
   supervisor: 'خانم احمدی',
   address: 'تهران، خیابان ولیعصر، پلاک 123',
@@ -86,10 +101,13 @@ const orphanPersonalInfo = ref({
 
 // Field configuration for orphan
 const orphanFields = ref([
-  { key: 'name', label: 'نام', type: 'text' as const },
+  { key: 'name', label: 'نام و نام خانوادگی', type: 'text' as const },
   { key: 'code', label: 'کد یتیم', type: 'text' as const },
   { key: 'age', label: 'سن', type: 'number' as const },
   { key: 'birthDate', label: 'تاریخ تولد', type: 'date' as const },
+  { key: 'nationalId', label: 'کد ملی', type: 'text' as const },
+  { key: 'idCardNumber', label: 'شماره شناسنامه', type: 'text' as const },
+  { key: 'education', label: 'تحصیلات', type: 'text' as const },
   { key: 'caretaker', label: 'قیم', type: 'text' as const },
   { key: 'supervisor', label: 'مسئول', type: 'text' as const },
   { key: 'address', label: 'آدرس', type: 'text' as const, fullWidth: true },
@@ -98,79 +116,112 @@ const orphanFields = ref([
 
 // Sample data for father
 const fatherData = ref({
-  name: 'احمد',
-  lastName: 'شریفیان',
+  name: 'احمد شریفیان',
+  fatherName: 'محمد',
   nationalId: '0012345678',
-  deathDate: '1400-05-20',
-  deathAge: 45,
+  birthDate: '1355-06-20',
+  idCardNumber: '123456789',
+  education: 'دیپلم',
   occupation: 'راننده',
-  address: 'تهران، خیابان ولیعصر، پلاک 123',
-  deathCause: 'تصادف رانندگی'
+  deathCause: 'تصادف رانندگی',
+  numberOfWives: 1,
+  deathDate: '1400-05-20',
+  religion: 'شیعه',
+  marriageDate: '1375-08-15'
 })
 
 // Field configuration for father
 const fatherFields = ref([
-  { key: 'name', label: 'نام', type: 'text' as const },
-  { key: 'lastName', label: 'نام خانوادگی', type: 'text' as const },
-  { key: 'nationalId', label: 'شماره شناسنامه', type: 'text' as const },
+  { key: 'name', label: 'نام و نام خانوادگی', type: 'text' as const },
+  { key: 'fatherName', label: 'نام پدر', type: 'text' as const },
+  { key: 'nationalId', label: 'کد ملی', type: 'text' as const },
+  { key: 'birthDate', label: 'تاریخ تولد', type: 'date' as const },
+  { key: 'idCardNumber', label: 'شماره شناسنامه', type: 'text' as const },
+  { key: 'education', label: 'تحصیلات', type: 'text' as const },
+  { key: 'occupation', label: 'شغل در زمان حیات', type: 'text' as const },
+  { key: 'deathCause', label: 'علت فوت', type: 'text' as const },
+  { key: 'numberOfWives', label: 'تعداد همسر', type: 'number' as const },
   { key: 'deathDate', label: 'تاریخ فوت', type: 'date' as const },
-  { key: 'deathAge', label: 'سن در زمان فوت', type: 'number' as const },
-  { key: 'occupation', label: 'شغل', type: 'text' as const },
-  { key: 'address', label: 'آدرس', type: 'text' as const, fullWidth: true },
-  { key: 'deathCause', label: 'علت فوت', type: 'text' as const, fullWidth: true }
+  { key: 'religion', label: 'مذهب', type: 'text' as const },
+  { key: 'marriageDate', label: 'تاریخ عقد', type: 'date' as const }
 ])
 
 // Sample data for mother
 const motherData = ref({
-  name: 'فاطمه',
-  lastName: 'محمدی',
+  name: 'فاطمه محمدی',
+  fatherName: 'علی',
   nationalId: '0012345679',
-  marriageStatus: 'متاهل',
-  age: 38,
+  birthDate: '1360-03-10',
+  idCardNumber: '123456790',
+  education: 'دیپلم',
   occupation: 'خانه‌دار',
-  address: 'تهران، خیابان ولیعصر، پلاک 123',
-  phone: '09123456789'
+  deathCause: '',
+  numberOfHusbands: 1,
+  deathDate: '',
+  religion: 'شیعه',
+  marriageDate: '1375-08-15',
+  physicalCondition: 'سالم',
+  moralStatus: 'خوب',
+  mentalStatus: 'خوب',
+  remarriageStatus: 'انجام داده',
+  intentionToRemarry: 'خیر'
 })
 
 // Field configuration for mother
 const motherFields = ref([
-  { key: 'name', label: 'نام', type: 'text' as const },
-  { key: 'lastName', label: 'نام خانوادگی', type: 'text' as const },
-  { key: 'nationalId', label: 'شماره شناسنامه', type: 'text' as const },
-  { key: 'age', label: 'سن', type: 'number' as const },
-  { key: 'marriageStatus', label: 'وضعیت تاهل', type: 'select' as const, options: [
-    { value: 'مجرد', label: 'مجرد' },
-    { value: 'متاهل', label: 'متاهل' },
-    { value: 'مطلقه', label: 'مطلقه' },
-    { value: 'بیوه', label: 'بیوه' }
+  { key: 'name', label: 'نام و نام خانوادگی', type: 'text' as const },
+  { key: 'fatherName', label: 'نام پدر', type: 'text' as const },
+  { key: 'nationalId', label: 'کد ملی', type: 'text' as const },
+  { key: 'birthDate', label: 'تاریخ تولد', type: 'date' as const },
+  { key: 'idCardNumber', label: 'شماره شناسنامه', type: 'text' as const },
+  { key: 'education', label: 'تحصیلات', type: 'text' as const },
+  { key: 'occupation', label: 'شغل در زمان حیات', type: 'text' as const },
+  { key: 'deathCause', label: 'علت فوت', type: 'text' as const },
+  { key: 'numberOfHusbands', label: 'تعداد همسر', type: 'number' as const },
+  { key: 'deathDate', label: 'تاریخ فوت', type: 'date' as const },
+  { key: 'religion', label: 'مذهب', type: 'text' as const },
+  { key: 'marriageDate', label: 'تاریخ عقد', type: 'date' as const },
+  { key: 'physicalCondition', label: 'وضعیت جسمانی', type: 'text' as const },
+  { key: 'moralStatus', label: 'وضعیت اخلاقی و رفتاری', type: 'text' as const },
+  { key: 'mentalStatus', label: 'وضعیت روحی و روانی', type: 'text' as const },
+  { key: 'remarriageStatus', label: 'ازدواج مجدد', type: 'select' as const, options: [
+    { value: 'انجام داده', label: 'انجام داده' },
+    { value: 'انجام نداده', label: 'انجام نداده' }
   ]},
-  { key: 'occupation', label: 'شغل', type: 'text' as const },
-  { key: 'address', label: 'آدرس', type: 'text' as const, fullWidth: true },
-  { key: 'phone', label: 'شماره تماس', type: 'text' as const }
+  { key: 'intentionToRemarry', label: 'آیا قصد ازدواج مجدد دارید؟', type: 'select' as const, options: [
+    { value: 'بلی', label: 'بلی' },
+    { value: 'خیر', label: 'خیر' }
+  ]}
 ])
 
 // Sample data for mother's husband
 const motherHusbandData = ref({
-  name: 'محمد',
-  lastName: 'کریمی',
+  name: 'محمد کریمی',
+  fatherName: 'حسین',
   nationalId: '0012345680',
-  age: 42,
+  birthDate: '1358-12-05',
+  idCardNumber: '123456791',
+  education: 'کارشناسی',
   occupation: 'کارمند',
-  marriageDate: '1401-08-15',
-  address: 'تهران، خیابان ولیعصر، پلاک 123',
-  phone: '09123456790'
+  nationality: 'ایرانی',
+  numberOfWives: 1,
+  religion: 'شیعه',
+  marriageDate: '1401-08-15'
 })
 
 // Field configuration for husband
 const husbandFields = ref([
-  { key: 'name', label: 'نام', type: 'text' as const },
-  { key: 'lastName', label: 'نام خانوادگی', type: 'text' as const },
-  { key: 'nationalId', label: 'شماره شناسنامه', type: 'text' as const },
-  { key: 'age', label: 'سن', type: 'number' as const },
+  { key: 'name', label: 'نام و نام خانوادگی', type: 'text' as const },
+  { key: 'fatherName', label: 'نام پدر', type: 'text' as const },
+  { key: 'nationalId', label: 'کد ملی', type: 'text' as const },
+  { key: 'birthDate', label: 'تاریخ تولد', type: 'date' as const },
+  { key: 'idCardNumber', label: 'شماره شناسنامه', type: 'text' as const },
+  { key: 'education', label: 'تحصیلات', type: 'text' as const },
   { key: 'occupation', label: 'شغل', type: 'text' as const },
-  { key: 'marriageDate', label: 'تاریخ ازدواج', type: 'date' as const },
-  { key: 'address', label: 'آدرس', type: 'text' as const, fullWidth: true },
-  { key: 'phone', label: 'شماره تماس', type: 'text' as const }
+  { key: 'nationality', label: 'ملیت', type: 'text' as const },
+  { key: 'numberOfWives', label: 'تعداد همسر', type: 'number' as const },
+  { key: 'religion', label: 'مذهب', type: 'text' as const },
+  { key: 'marriageDate', label: 'تاریخ عقد', type: 'date' as const }
 ])
 
 // Sample data for visits
@@ -252,5 +303,40 @@ const updateHusbandInfo = (data: Record<string, string | number>) => {
   Object.assign(motherHusbandData.value, data)
   console.log('Husband info updated:', data)
 }
-</script>
+
+const tabs = ref([
+  { key: 'personal', title: 'اطلاعات شخصی', slot: 'personal' },
+  { key: 'visits', title: 'بازدیدها', slot: 'visits' },
+  { key: 'monetary', title: 'کمک‌های مالی', slot: 'monetary' },
+  { key: 'nonmonetary', title: 'کمک‌های غیرمالی', slot: 'nonmonetary' },
+])
+
+// Sample data for non-monetary help
+const nonMonetaryData = ref([
+  {
+    id: 1,
+    date: '1404-07-20',
+    donor: 'موسسه خیریه',
+    items: [
+      { name: 'کیف مدرسه', count: 1 },
+      { name: 'دفتر 100 برگ', count: 4 },
+      { name: 'مداد', count: 10 },
+    ],
+    note: 'بسته لوازم‌التحریر مهر'
+  },
+  {
+    id: 2,
+    date: '1404-08-03',
+    donor: 'خیرین محلی',
+    items: [
+      { name: 'لباس زمستانی', count: 2 },
+      { name: 'کفش', count: 1 }
+    ]
+  }
+])
+
+// component name for linter (multi-word)
+// eslint-disable-next-line vue/require-name-property
+defineOptions({ name: 'OrphanShowPage' })
+  </script>
   

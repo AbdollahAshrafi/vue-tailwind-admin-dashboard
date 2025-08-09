@@ -1,65 +1,29 @@
 <template>
-  <div>
-    <div class="p-5 mb-6 border border-gray-200 rounded-2xl dark:border-gray-800 lg:p-6">
-      <div class="flex flex-col gap-6 lg:flex-row lg:items-start lg:justify-between">
-        <div>
-          <h4 class="text-lg font-semibold text-gray-800 dark:text-white/90 lg:mb-6">
-            آخرین بازدیدها
-          </h4>
-        </div>
-        <button @click="showAllVisits" class="edit-button">
-          <svg
-            class="fill-current"
-            width="18"
-            height="18"
-            viewBox="0 0 18 18"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M9 1.5C4.85786 1.5 1.5 4.85786 1.5 9C1.5 13.1421 4.85786 16.5 9 16.5C13.1421 16.5 16.5 13.1421 16.5 9C16.5 4.85786 13.1421 1.5 9 1.5ZM9 15C5.68629 15 3 12.3137 3 9C3 5.68629 5.68629 3 9 3C12.3137 3 15 5.68629 15 9C15 12.3137 12.3137 15 9 15Z"
-              fill=""
-            />
-            <path
-              d="M9 4.5C8.58579 4.5 8.25 4.83579 8.25 5.25V8.25H5.25C4.83579 8.25 4.5 8.58579 4.5 9C4.5 9.41421 4.83579 9.75 5.25 9.75H8.25V12.75C8.25 13.1642 8.58579 13.5 9 13.5C9.41421 13.5 9.75 13.1642 9.75 12.75V9.75H12.75C13.1642 9.75 13.5 9.41421 13.5 9C13.5 8.58579 13.1642 8.25 12.75 8.25H9.75V5.25C9.75 4.83579 9.41421 4.5 9 4.5Z"
-              fill=""
-            />
-          </svg>
-          مشاهده همه
-        </button>
-      </div>
-
-      <div class="overflow-x-auto">
-        <table class="w-full">
-          <thead>
-            <tr class="border-b border-gray-200 dark:border-gray-700">
-              <th class="text-right py-3 px-4 text-sm font-medium text-gray-500 dark:text-gray-400">تاریخ بازدید</th>
-              <th class="text-right py-3 px-4 text-sm font-medium text-gray-500 dark:text-gray-400">بازدیدکننده</th>
-              <th class="text-right py-3 px-4 text-sm font-medium text-gray-500 dark:text-gray-400">نوع بازدید</th>
-              <th class="text-right py-3 px-4 text-sm font-medium text-gray-500 dark:text-gray-400">توضیحات</th>
-              <th class="text-right py-3 px-4 text-sm font-medium text-gray-500 dark:text-gray-400">وضعیت</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for="visit in visits" :key="visit.id" class="border-b border-gray-100 dark:border-gray-800">
-              <td class="py-3 px-4 text-sm text-gray-800 dark:text-white/90">{{ visit.date }}</td>
-              <td class="py-3 px-4 text-sm text-gray-800 dark:text-white/90">{{ visit.visitor }}</td>
-              <td class="py-3 px-4 text-sm text-gray-800 dark:text-white/90">{{ visit.type }}</td>
-              <td class="py-3 px-4 text-sm text-gray-800 dark:text-white/90">{{ visit.description }}</td>
-              <td class="py-3 px-4">
-                <span :class="getStatusClass(visit.status)" class="px-2 py-1 text-xs rounded-full">
-                  {{ visit.status }}
-                </span>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-  </div>
+  <ComponentCard title="همه بازدیدها" className="mb-6">
+    <Datatable :data="visits" :columns="columns" :items-per-page="10" :searchable="true">
+      <template #date="{ value }">
+        <span class="text-gray-800 dark:text-white/90">{{ value }}</span>
+      </template>
+      <template #visitor="{ value }">
+        <span class="text-gray-800 dark:text-white/90">{{ value }}</span>
+      </template>
+      <template #type="{ value }">
+        <span class="text-gray-800 dark:text-white/90">{{ value }}</span>
+      </template>
+      <template #description="{ value }">
+        <span class="text-gray-800 dark:text-white/90">{{ value }}</span>
+      </template>
+      <template #status="{ value }">
+        <span :class="getStatusClass(value)" class="px-2 py-1 text-xs rounded-full">{{ value }}</span>
+      </template>
+    </Datatable>
+  </ComponentCard>
 </template>
 
 <script setup lang="ts">
+import ComponentCard from '@/components/common/ComponentCard.vue'
+import Datatable from '@/components/tables/Datatable.vue'
+
 interface Visit {
   id: number
   date: string
@@ -73,7 +37,15 @@ interface Props {
   visits: Visit[]
 }
 
-const props = defineProps<Props>()
+defineProps<Props>()
+
+const columns = [
+  { key: 'date', label: 'تاریخ بازدید', sortable: true },
+  { key: 'visitor', label: 'بازدیدکننده', sortable: true },
+  { key: 'type', label: 'نوع بازدید', sortable: true },
+  { key: 'description', label: 'توضیحات', sortable: false },
+  { key: 'status', label: 'وضعیت', sortable: true },
+]
 
 const getStatusClass = (status: string) => {
   switch (status) {
@@ -86,10 +58,5 @@ const getStatusClass = (status: string) => {
     default:
       return 'bg-gray-100 text-gray-800 dark:bg-gray-900/20 dark:text-gray-400'
   }
-}
-
-const showAllVisits = () => {
-  // Implement show all visits logic
-  console.log('Show all visits')
 }
 </script> 
