@@ -29,7 +29,7 @@
             </svg>
           </router-link>
         </li>
-        <li class="text-sm mt-2 text-gray-800 dark:text-white/90">
+        <li class="text-sm text-gray-800 dark:text-white/90">
           {{ pageTitle }}
         </li>
       </ol>
